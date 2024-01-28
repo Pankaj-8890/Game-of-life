@@ -9,7 +9,7 @@ public class BoardTest {
         try {
             Board gameBoard = new Board(4,4,40);
         } catch (IllegalArgumentException e) {
-            assertEquals("Board dimension must be greater than 1", e.getMessage());
+            assertEquals("values must be greater than 0", e.getMessage());
         }
     }
 
@@ -19,7 +19,7 @@ public class BoardTest {
         try {
             Board gameBoard = new Board(1,1,50);
         } catch (IllegalArgumentException e) {
-            assertEquals("Board dimension must be greater than 1", e.getMessage());
+            assertEquals("values must be greater than 0", e.getMessage());
         }
     }
 
@@ -28,9 +28,10 @@ public class BoardTest {
         try {
             Board gameBoard = new Board(0,0,50);
         } catch (IllegalArgumentException e) {
-            assertEquals("Board dimension must be greater than 1", e.getMessage());
+            assertEquals("values must be greater than 0", e.getMessage());
         }
     }
+
 
 
 }

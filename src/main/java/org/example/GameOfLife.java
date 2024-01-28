@@ -22,7 +22,7 @@ public class GameOfLife {
         this.newBoard = board.getBoard();
     }
 
-    public boolean checkAlive() {
+    public boolean checkAllDead() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (newBoard[i][j] == 1) {
@@ -35,46 +35,30 @@ public class GameOfLife {
 
     public String startGame() {
 
-        Scanner scanner = new Scanner(System.in);
-        int generations = 0;
-        while (!checkAlive()) {
-
+        int generation = 0;
+        while (!checkAllDead()) {
             int[][] currentBoard = Arrays.copyOf(newBoard, newBoard.length);
-            System.out.println("Type 'next' for the next generation or 'quit' to end the game:");
-            String choice = scanner.next();
-
-            switch (choice) {
-                case "quit":
-                    System.out.println("Quitting the game!");
-                    return "game has ended";
-                case "next":
-                    System.out.println("Generation " + (generations + 1) + ":");
-                    generations++;
-                    displayBoard();
-                    updateBoard();
-                    if (Arrays.deepEquals(currentBoard, newBoard)) {
-                        return "boards are same";
-                    }
-                    break;
-                default:
-                    System.out.println("Invalid choice. Type 'next' or 'quit'.");
+            System.out.println("Generation " + (generation + 1) + ":");
+            generation++;
+            displayBoard();
+            updateBoard();
+            if (Arrays.deepEquals(currentBoard, newBoard)) {
+                return "Can't generate next generation";
             }
         }
-
         return "All cells are dead. The game has ended.";
     }
 
-    private void updateBoard() {
+    public void updateBoard() {
         int[][] nextGeneration = new int[row][column];
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 int liveNeighbors = countLiveNeighbors(i, j);
-
                 if (newBoard[i][j] == 1) {
                     if (liveNeighbors < 2 || liveNeighbors > 3) {
                         nextGeneration[i][j] = 0;
-                    } else {
+                    }else{
                         nextGeneration[i][j] = 1;
                     }
                 } else {
@@ -84,12 +68,22 @@ public class GameOfLife {
                 }
             }
         }
-
         newBoard = nextGeneration;
     }
 
     private int countLiveNeighbors(int x, int y) {
         int count = 0;
+        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
+        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for (int i = 0; i < 8; i++) {
+            int newX = x + dx[i];
+            int newY = y + dy[i];
+
+            if (newX >= 0 && newX < row && newY >= 0 && newY < column) {
+                count += newBoard[newX][newY];
+            }
+        }
 
         return count;
     }

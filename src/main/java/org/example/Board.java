@@ -14,8 +14,8 @@ public class Board {
     private int[][] board;
     public Board(int rowIndex, int columnIndex,int seedingLive){
 
-        if (rowIndex <= 0 || columnIndex <= 0) {
-            throw new IllegalArgumentException("Board dimension must be greater than 0");
+        if (rowIndex <= 0 || columnIndex <= 0 || seedingLive < 0) {
+            throw new IllegalArgumentException("values must be greater than 0");
         }
 
         this.rowIndex = rowIndex;
@@ -29,18 +29,19 @@ public class Board {
         Random random = new Random();
 
         double noOfseededLives = floor((rowIndex*columnIndex) * seedingLive * 0.01);
+        int noOfseededLive = (int)noOfseededLives;
+        if(noOfseededLive < 0)
+        System.out.println(noOfseededLive);
 
-        for(int i=0;i<board.length;i++){
-            for(int j=0;j<board.length;j++){
-                int x = random.nextInt(2);
-                if(x == 1 && noOfseededLives > 0) {
-                    board[i][j] = 1;
-                    noOfseededLives--;
-                }
-                else board[i][j] = 0;
+        while (noOfseededLive > 0) {
+            int i = random.nextInt(rowIndex);
+            int j = random.nextInt(columnIndex);
+
+            if (board[i][j] == 0) {
+                board[i][j] = 1;
+                noOfseededLive--;
             }
         }
-
         return board;
     }
 
