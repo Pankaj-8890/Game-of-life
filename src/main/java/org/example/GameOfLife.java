@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -21,7 +22,7 @@ public class GameOfLife {
         this.newBoard = board.getBoard();
     }
 
-    private boolean checkAlive() {
+    public boolean checkAlive() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 if (newBoard[i][j] == 1) {
@@ -32,36 +33,65 @@ public class GameOfLife {
         return true;
     }
 
-    public void startGame() {
+    public String startGame() {
 
         Scanner scanner = new Scanner(System.in);
         int generations = 0;
-
         while (!checkAlive()) {
+
+            int[][] currentBoard = Arrays.copyOf(newBoard, newBoard.length);
             System.out.println("Type 'next' for the next generation or 'quit' to end the game:");
             String choice = scanner.next();
 
             switch (choice) {
                 case "quit":
                     System.out.println("Quitting the game!");
-                    return;
+                    return "game has ended";
                 case "next":
                     System.out.println("Generation " + (generations + 1) + ":");
                     generations++;
                     displayBoard();
                     updateBoard();
+                    if (Arrays.deepEquals(currentBoard, newBoard)) {
+                        return "boards are same";
+                    }
                     break;
                 default:
                     System.out.println("Invalid choice. Type 'next' or 'quit'.");
             }
         }
 
-        System.out.println("All cells are dead. The game has ended.");
-
+        return "All cells are dead. The game has ended.";
     }
 
     private void updateBoard() {
+        int[][] nextGeneration = new int[row][column];
 
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < column; j++) {
+                int liveNeighbors = countLiveNeighbors(i, j);
+
+                if (newBoard[i][j] == 1) {
+                    if (liveNeighbors < 2 || liveNeighbors > 3) {
+                        nextGeneration[i][j] = 0;
+                    } else {
+                        nextGeneration[i][j] = 1;
+                    }
+                } else {
+                    if (liveNeighbors == 3) {
+                        nextGeneration[i][j] = 1;
+                    }
+                }
+            }
+        }
+
+        newBoard = nextGeneration;
+    }
+
+    private int countLiveNeighbors(int x, int y) {
+        int count = 0;
+
+        return count;
     }
 
     private void displayBoard() {
