@@ -13,9 +13,9 @@ public class Board {
     private int seedingLive;
     private Cell[][] board;
 
-    public Board(int row, int column, int seedingLive) {
+    public Board(int row, int column, int seedingLive) throws InvalidArguments {
         if (row <= 0 || column <= 0 || seedingLive < 0) {
-            throw new IllegalArgumentException("Values must be greater than 0");
+            throw new InvalidArguments("Values must be greater than 0");
         }
 
         this.row = row;
@@ -24,7 +24,18 @@ public class Board {
         initializeBoard();
     }
 
-    public void initializeBoard() {
+    public Board(Integer rows, Integer columns, Cell[][] board) throws IllegalStateException {
+
+        if (rows <= 0 || columns <= 0 || !(board instanceof Cell[][])) {
+            throw new IllegalStateException("Invalid data provided...");
+        }
+        this.row = rows;
+        this.column = columns;
+        this.board = board;
+
+    }
+
+    private void initializeBoard() {
         Cell[][] newBoard = new Cell[row][column];
         Random random = new Random();
 
@@ -51,7 +62,7 @@ public class Board {
     public boolean checkAllDead() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                if (board[i][j].isAlive()) {
+                if (board[i][j]!=null && board[i][j].isAlive()) {
                     return false;
                 }
             }
@@ -59,7 +70,15 @@ public class Board {
         return true;
     }
 
-    public String startGame() {
+    private boolean Compare(Cell[][] currentBord,Cell[][] board){
+        for(int i=0;i<currentBord.length;i++){
+            for(int j=0;j<currentBord.length;j++){
+                if(currentBord[i][j] != null && !(currentBord[i][j].equals(board[i][j])))return false;
+            }
+        }
+        return true;
+    }
+    public String startGame() throws GenerationNotPossible {
         int generation = 0;
         while (!checkAllDead()) {
             Cell[][] currentBoard = board;
@@ -69,25 +88,22 @@ public class Board {
             nextGenerationBoard();
 
             if (currentBoard.equals(board)) {
-                System.out.println("equal");
-                return "Can't generate the next generation";
+                throw new GenerationNotPossible("Can't generate the next generation");
             }
         }
-        return "All cells are dead. The game has ended.";
+        throw new GenerationNotPossible("Can't generate the next generation");
     }
 
-    public void nextGenerationBoard() {
+    private void nextGenerationBoard() {
         Cell[][] nextGeneration = new Cell[row][column];
 
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                int liveNeighbors = countLiveNeighbors(i, j);
-                if (board[i][j] != null && board[i][j].isAlive()) {
-                    if (liveNeighbors < 2 || liveNeighbors > 3) {
-                        nextGeneration[i][j] = new Cell(0);
-                    } else {
-                        nextGeneration[i][j] = new Cell(1);
-                    }
+                Cell currentCell = board[i][j];
+                int liveNeighbors = currentCell != null ? currentCell.countLiveNeighbors(board, i, j) : 0;
+
+                if (currentCell != null && currentCell.isAlive()) {
+                    nextGeneration[i][j] = currentCell.getNextGenerationCell(liveNeighbors);
                 } else {
                     if (liveNeighbors == 3) {
                         nextGeneration[i][j] = new Cell(1);
@@ -98,26 +114,10 @@ public class Board {
         board = nextGeneration;
     }
 
-    private int countLiveNeighbors(int x, int y) {
-        int count = 0;
-        int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-
-        for (int[] dir : directions) {
-            int neighbourX = x + dir[0];
-            int neighbourY = y + dir[1];
-
-            if (neighbourX >= 0 && neighbourX < row && neighbourY >= 0 && neighbourY < column
-                    && board[neighbourX][neighbourY] != null && board[neighbourX][neighbourY].isAlive()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public void displayBoard() {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                if(board[i][j].isAlive()){
+                if(board[i][j] != null && board[i][j].isAlive()){
                     System.out.print("1");
                 }else{
                     System.out.print("0");
@@ -126,6 +126,12 @@ public class Board {
             System.out.println();
         }
         System.out.println();
+    }
+
+    public boolean equals(Board board) {
+
+        return this.row == board.row && this.column == board.column && Arrays.deepEquals(this.board, board.board);
+
     }
 
 }
