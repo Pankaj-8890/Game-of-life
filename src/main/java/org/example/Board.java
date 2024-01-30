@@ -98,18 +98,16 @@ public class Board {
 
     private int countLiveNeighbors(int x, int y) {
         int count = 0;
-        int[] dx = {-1, -1, -1, 0, 0, 1, 1, 1};
-        int[] dy = {-1, 0, 1, -1, 1, -1, 0, 1};
+        int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 
-        for (int i = 0; i < 8; i++) {
-            int newX = x + dx[i];
-            int newY = y + dy[i];
+        for (int[] dir : directions) {
+            int neighbourX = x + dir[0];
+            int neighbourY = y + dir[1];
 
-            if (newX >= 0 && newX < row && newY >= 0 && newY < column) {
-                count += board[newX][newY];
+            if (neighbourX >= 0 && neighbourX < row && neighbourY >= 0 && neighbourY < column) {
+                count += board[neighbourX][neighbourY];
             }
         }
-
         return count;
     }
 
