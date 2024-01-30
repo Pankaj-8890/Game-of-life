@@ -87,7 +87,7 @@ public class Board {
             displayBoard();
             nextGenerationBoard();
 
-            if (currentBoard.equals(board)) {
+            if (Compare(currentBoard,board)) {
                 throw new GenerationNotPossible("Can't generate the next generation");
             }
         }
