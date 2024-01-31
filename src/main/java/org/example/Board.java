@@ -78,7 +78,7 @@ public class Board {
         }
         return true;
     }
-    public String startGame() throws GenerationNotPossible {
+    public void startGame() throws GenerationNotPossible {
         int generation = 0;
         while (!checkAllDead()) {
             Cell[][] currentBoard = board;
@@ -93,7 +93,6 @@ public class Board {
         }
         throw new GenerationNotPossible("Can't generate the next generation");
     }
-
     private void nextGenerationBoard() {
         Cell[][] nextGeneration = new Cell[row][column];
 

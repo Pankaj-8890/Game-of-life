@@ -2,7 +2,7 @@ import org.example.Board;
 import org.example.Cell;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class CellTest {
     @Test
@@ -35,5 +35,29 @@ public class CellTest {
 
         Cell cell = new Cell(0);
         assertEquals(0, cell.countLiveNeighbors(aMatrix,0,1));
+    }
+
+    @Test
+    public void TestAbleToReturnAliveCellWhenDeadCellHas3AliveNeighbour() {
+
+        Cell cell = new Cell(0);
+        Cell newCell = cell.getNextGenerationCell(3);
+        assertTrue(newCell.isAlive());
+    }
+
+    @Test
+    public void TestAbleToReturnDeadCellWhenAliveCellHaslessThan2AliveNeighbour() {
+
+        Cell cell = new Cell(1);
+        Cell newCell = cell.getNextGenerationCell(1);
+        assertFalse(newCell.isAlive());
+    }
+
+    @Test
+    public void TestAbleToReturnDeadCellWhenAliveCellHasGreaterThan3AliveNeighbour() {
+
+        Cell cell = new Cell(1);
+        Cell newCell = cell.getNextGenerationCell(4);
+        assertFalse(newCell.isAlive());
     }
 }

@@ -40,7 +40,7 @@ public class Cell {
 
         if (this == o) return true;
         Cell cell = (Cell) o;
-        return cell != null && this.state == cell.state && this.hashCode() == cell.hashCode();
+        return cell != null && this.state == cell.state;
 
     }
 
