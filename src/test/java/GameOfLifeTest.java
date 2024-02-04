@@ -13,12 +13,12 @@ public class GameOfLifeTest {
         Board board = new Board(2, 2,0);
         Cell[][] aMatrix = new Cell[2][2];
 
-        aMatrix[0][0] = new Cell(0);
-        aMatrix[0][1] = new Cell(0);
-        aMatrix[1][0] = new Cell(1);
-        aMatrix[1][1] = new Cell(1);
+        aMatrix[0][0] = new Cell(CellType.DEAD);
+        aMatrix[0][1] = new Cell(CellType.DEAD);
+        aMatrix[1][0] =new Cell(CellType.ALIVE);
+        aMatrix[1][1] =new Cell(CellType.ALIVE);
         Board anotherBoard = new Board(2, 2, aMatrix);
-        assertEquals(false, board.equals(anotherBoard));
+        assertFalse(board.equals(anotherBoard));
     }
 
     @Test
@@ -27,12 +27,12 @@ public class GameOfLifeTest {
         Board board = new Board(2, 2,100);
         Cell[][] aMatrix = new Cell[2][2];
 
-        aMatrix[0][0] = new Cell(1);
-        aMatrix[0][1] = new Cell(1);
-        aMatrix[1][0] = new Cell(1);
-        aMatrix[1][1] = new Cell(1);
+        aMatrix[0][0] =new Cell(CellType.ALIVE);
+        aMatrix[0][1] =new Cell(CellType.ALIVE);
+        aMatrix[1][0] =new Cell(CellType.ALIVE);
+        aMatrix[1][1] =new Cell(CellType.ALIVE);
         Board anotherBoard = new Board(2, 2, aMatrix);
-        assertEquals(true, board.equals(anotherBoard));
+        assertTrue(board.equals(anotherBoard));
     }
 
     @Test
@@ -66,13 +66,13 @@ public class GameOfLifeTest {
     public void TestStartGameHavingOneAliveCellsIn1X1Grid() throws Exception {
 
         Board board = new Board(1,1,100);
-        assertThrows(Exception.class,()-> board.startGame());
+        assertThrows(Exception.class, board::startGame);
     }
 
     @Test
     public void TestStartGameHavingOAliveCellsIn1X1Grid() throws Exception {
         Board board = new Board(1,1,50);
-        assertThrows(Exception.class,()-> board.startGame());
+        assertThrows(Exception.class, board::startGame);
 
     }
 
@@ -80,7 +80,7 @@ public class GameOfLifeTest {
     public void TestStartGameHaving_All_Cells_AliveIn2X2Grid() throws Exception {
 
         Board board = new Board(2,2,100);
-        assertThrows(GenerationNotPossible.class,()-> board.startGame());
+        assertThrows(GenerationNotPossible.class, board::startGame);
 
     }
 
@@ -89,7 +89,7 @@ public class GameOfLifeTest {
 
         Board board = new Board(2, 2,100);
         Board anotherBoard = new Board(2, 2,100);
-        assertEquals(true, board.equals(anotherBoard));
+        assertTrue(board.equals(anotherBoard));
     }
 
 }

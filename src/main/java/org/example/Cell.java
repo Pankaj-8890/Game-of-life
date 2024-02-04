@@ -11,22 +11,6 @@ public class Cell {
         return isAlive == CellType.ALIVE;
     }
 
-    public int countLiveNeighbors(Cell[][] board, int x, int y) {
-        int count = 0;
-        int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
-
-        for (int[] dir : directions) {
-            int neighbourX = x + dir[0];
-            int neighbourY = y + dir[1];
-
-            if (neighbourX >= 0 && neighbourX < board.length && neighbourY >= 0 && neighbourY < board[0].length
-                    && board[neighbourX][neighbourY] != null && board[neighbourX][neighbourY].isAlive()) {
-                count++;
-            }
-        }
-        return count;
-    }
-
     public Cell getNextGenerationCell(int liveNeighbors) {
         if (liveNeighbors < 2 || liveNeighbors > 3) {
             return new Cell(CellType.DEAD);

@@ -26,7 +26,7 @@ public class Board {
 
     public Board(Integer rows, Integer columns, Cell[][] board) throws IllegalStateException {
 
-        if (rows <= 0 || columns <= 0 || !(board instanceof Cell[][])) {
+        if (rows <= 0 || columns <= 0 || board == null) {
             throw new IllegalStateException("Invalid data provided...");
         }
         this.row = rows;
@@ -43,7 +43,7 @@ public class Board {
         int noOfSeededLive = (int) noOfSeededLives;
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
-                newBoard[i][j] = new Cell(0);
+                newBoard[i][j] = new Cell(CellType.DEAD);
             }
         }
 
@@ -52,7 +52,7 @@ public class Board {
             int j = random.nextInt(column);
 
             if (!newBoard[i][j].isAlive()) {
-                newBoard[i][j] = new Cell(1);
+                newBoard[i][j] = new Cell(CellType.ALIVE);
                 noOfSeededLive--;
             }
         }
@@ -87,7 +87,7 @@ public class Board {
             displayBoard();
             nextGenerationBoard();
 
-            if (Compare(currentBoard,board)) {
+            if (Arrays.deepEquals(currentBoard, board)) {
                 throw new GenerationNotPossible("Can't generate the next generation");
             }
         }
@@ -99,18 +99,34 @@ public class Board {
         for (int i = 0; i < row; i++) {
             for (int j = 0; j < column; j++) {
                 Cell currentCell = board[i][j];
-                int liveNeighbors = currentCell != null ? currentCell.countLiveNeighbors(board, i, j) : 0;
+                int liveNeighbors = currentCell != null ? countLiveNeighbors(i, j) : 0;
 
                 if (currentCell != null && currentCell.isAlive()) {
                     nextGeneration[i][j] = currentCell.getNextGenerationCell(liveNeighbors);
                 } else {
                     if (liveNeighbors == 3) {
-                        nextGeneration[i][j] = new Cell(1);
+                        nextGeneration[i][j] = new Cell(CellType.ALIVE);
                     }
                 }
             }
         }
         board = nextGeneration;
+    }
+
+    private int countLiveNeighbors(int x, int y) {
+        int count = 0;
+        int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
+
+        for (int[] dir : directions) {
+            int neighbourX = x + dir[0];
+            int neighbourY = y + dir[1];
+
+            if (neighbourX >= 0 && neighbourX < board.length && neighbourY >= 0 && neighbourY < board[0].length
+                    && board[neighbourX][neighbourY] != null && board[neighbourX][neighbourY].isAlive()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public void displayBoard() {
