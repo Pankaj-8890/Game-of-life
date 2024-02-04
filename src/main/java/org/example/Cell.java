@@ -2,13 +2,13 @@ package org.example;
 import java.util.Objects;
 
 public class Cell {
-    private int state;
-    public Cell(int state) {
-        this.state = state;
+    private CellType isAlive;
+    public Cell(CellType state) {
+        this.isAlive = state;
     }
 
     public Boolean isAlive() {
-        return state == 1;
+        return isAlive == CellType.ALIVE;
     }
 
     public int countLiveNeighbors(Cell[][] board, int x, int y) {
@@ -29,9 +29,9 @@ public class Cell {
 
     public Cell getNextGenerationCell(int liveNeighbors) {
         if (liveNeighbors < 2 || liveNeighbors > 3) {
-            return new Cell(0);
+            return new Cell(CellType.DEAD);
         } else {
-            return new Cell(1);
+            return new Cell(CellType.ALIVE);
         }
     }
 
@@ -40,12 +40,12 @@ public class Cell {
 
         if (this == o) return true;
         Cell cell = (Cell) o;
-        return cell != null && this.state == cell.state;
+        return cell != null && this.isAlive == cell.isAlive;
 
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(state);
+        return Objects.hash(isAlive);
     }
 }
