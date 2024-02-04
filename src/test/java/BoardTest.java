@@ -1,37 +1,23 @@
 import org.example.Board;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+import org.example.InvalidArguments;
 import org.junit.Test;
 
 
 public class BoardTest {
     @Test
     public void testBoardWithNegativeDimension() {
-        try {
-            Board gameBoard = new Board(4,4,40);
-        } catch (IllegalArgumentException e) {
-            assertEquals("values must be greater than 0", e.getMessage());
-        }
+        assertThrows(InvalidArguments.class,()-> new Board(-4,-4,40));
     }
 
 
     @Test
     public void testBoardWithDimension1() {
-        try {
-            Board gameBoard = new Board(1,1,50);
-        } catch (IllegalArgumentException e) {
-            assertEquals("values must be greater than 0", e.getMessage());
-        }
+        assertDoesNotThrow(()-> new Board(1,1,40));
     }
-
-    @Test
-    public void testBoardWithDimension2() {
-        try {
-            Board gameBoard = new Board(0,0,50);
-        } catch (IllegalArgumentException e) {
-            assertEquals("values must be greater than 0", e.getMessage());
-        }
-    }
-
 
 
 }
