@@ -30,4 +30,48 @@ public class CellTest {
         Cell newCell = cell.getNextGenerationCell(4);
         assertFalse(newCell.isAlive());
     }
+
+    @Test
+    public void evolveCellWithZeroNeighboursWhenCellIsDead() {
+        Cell cell = new Cell(CellType.DEAD);
+
+        boolean actual = cell.getNextGenerationCell(0).isAlive();
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void evolveCellWithZeroNeighboursWhenCellIsAlive() {
+        Cell cell = new Cell(CellType.ALIVE);
+
+        boolean actual = cell.getNextGenerationCell(0).isAlive();
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void evolveCellWithOneNeighboursWhenCellIsDead() {
+        Cell cell = new Cell(CellType.DEAD);
+
+        boolean actual = cell.getNextGenerationCell(1).isAlive();
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
+    @Test
+    public void evolveCellWithLessThanZeroNeighboursWhenCellIsDead() {
+        Cell cell = new Cell(CellType.DEAD);
+
+        boolean actual = cell.getNextGenerationCell(-1).isAlive();
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void evolveCellWithLessThanZeroNeighboursWhenCellIsAlive() {
+        Cell cell = new Cell(CellType.ALIVE);
+
+        boolean actual = cell.getNextGenerationCell(-1).isAlive();
+        boolean expected = false;
+        assertEquals(expected, actual);
+    }
 }

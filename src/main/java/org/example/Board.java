@@ -8,8 +8,8 @@ import static java.lang.Math.floor;
 
 public class Board {
 
-    private int row;
-    private int column;
+    private final int row;
+    private final int column;
     private int seedingLive;
     private Cell[][] board;
 
@@ -70,14 +70,6 @@ public class Board {
         return true;
     }
 
-    private boolean Compare(Cell[][] currentBord,Cell[][] board){
-        for(int i=0;i<currentBord.length;i++){
-            for(int j=0;j<currentBord.length;j++){
-                if(currentBord[i][j] != null && !(currentBord[i][j].equals(board[i][j])))return false;
-            }
-        }
-        return true;
-    }
     public void startGame() throws GenerationNotPossible {
         int generation = 0;
         while (!checkAllDead()) {
@@ -112,7 +104,6 @@ public class Board {
         }
         board = nextGeneration;
     }
-
     private int countLiveNeighbors(int x, int y) {
         int count = 0;
         int[][] directions = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
