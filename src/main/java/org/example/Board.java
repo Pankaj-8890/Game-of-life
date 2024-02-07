@@ -69,7 +69,7 @@ public class Board {
         }
         return true;
     }
-    public Board nextGenerationBoard() throws GenerationNotPossible {
+    public void nextGenerationBoard() throws GenerationNotPossible {
 
         Cell[][] nextGeneration = new Cell[row][column];
 
@@ -91,8 +91,6 @@ public class Board {
             throw new GenerationNotPossible("Can't generate the next generation");
         }
         board = nextGeneration;
-        return new Board(this.row,this.column,this.board);
-
     }
     private int countLiveNeighbors(int x, int y) {
         int count = 0;

@@ -32,7 +32,7 @@ public class CellTest {
     }
 
     @Test
-    public void evolveCellWithZeroNeighboursWhenCellIsDead() {
+    public void TestCellWithZeroNeighboursWhenCellIsDead() {
         Cell cell = new Cell(CellType.DEAD);
 
         boolean actual = cell.getNextGenerationCell(0).isAlive();
@@ -41,7 +41,7 @@ public class CellTest {
     }
 
     @Test
-    public void evolveCellWithZeroNeighboursWhenCellIsAlive() {
+    public void TestCellWithZeroNeighboursWhenCellIsAlive() {
         Cell cell = new Cell(CellType.ALIVE);
 
         boolean actual = cell.getNextGenerationCell(0).isAlive();
@@ -50,7 +50,7 @@ public class CellTest {
     }
 
     @Test
-    public void evolveCellWithOneNeighboursWhenCellIsDead() {
+    public void TestCellWithOneNeighboursWhenCellIsDead() {
         Cell cell = new Cell(CellType.DEAD);
 
         boolean actual = cell.getNextGenerationCell(1).isAlive();
@@ -58,7 +58,7 @@ public class CellTest {
         assertEquals(expected, actual);
     }
     @Test
-    public void evolveCellWithLessThanZeroNeighboursWhenCellIsDead() {
+    public void TestCellWithLessThanZeroNeighboursWhenCellIsDead() {
         Cell cell = new Cell(CellType.DEAD);
 
         boolean actual = cell.getNextGenerationCell(-1).isAlive();
@@ -67,7 +67,7 @@ public class CellTest {
     }
 
     @Test
-    public void evolveCellWithLessThanZeroNeighboursWhenCellIsAlive() {
+    public void TestCellWithLessThanZeroNeighboursWhenCellIsAlive() {
         Cell cell = new Cell(CellType.ALIVE);
 
         boolean actual = cell.getNextGenerationCell(-1).isAlive();

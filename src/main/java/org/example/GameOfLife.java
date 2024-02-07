@@ -11,10 +11,10 @@ public class GameOfLife {
         board.initializeBoard();
         board.displayBoard();
         try{
-            while (true ) {
+            while (true) {
                 int n = userInput.getUserChoice();
                 if (n == 1) {
-                    board = board.nextGenerationBoard();
+                    board.nextGenerationBoard();
                     board.displayBoard();
                     System.out.println("===========================");
                 }
