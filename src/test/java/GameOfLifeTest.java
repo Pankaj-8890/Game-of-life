@@ -63,28 +63,6 @@ public class GameOfLifeTest {
     }
 
     @Test
-    public void TestStartGameHavingOneAliveCellsIn1X1Grid() throws Exception {
-
-        Board board = new Board(1,1,100);
-        assertThrows(Exception.class, board::startGame);
-    }
-
-    @Test
-    public void TestStartGameHavingOAliveCellsIn1X1Grid() throws Exception {
-        Board board = new Board(1,1,50);
-        assertThrows(Exception.class, board::startGame);
-
-    }
-
-    @Test
-    public void TestStartGameHaving_All_Cells_AliveIn2X2Grid() throws Exception {
-
-        Board board = new Board(2,2,100);
-        assertThrows(GenerationNotPossible.class, board::startGame);
-
-    }
-
-    @Test
     public void TestEqualByComparingTwoEqualGrids() throws InvalidArguments {
 
         Board board = new Board(2, 2,100);

@@ -35,7 +35,7 @@ public class Board {
 
     }
 
-    private void initializeBoard() {
+    public void initializeBoard() {
         Cell[][] newBoard = new Cell[row][column];
         Random random = new Random();
 
@@ -69,23 +69,7 @@ public class Board {
         }
         return true;
     }
-
-    public void startGame() throws GenerationNotPossible {
-        int generation = 0;
-        while (!checkAllDead()) {
-            Cell[][] currentBoard = board;
-            System.out.println("Generation " + (generation + 1) + ":");
-            generation++;
-            displayBoard();
-            nextGenerationBoard();
-
-            if (Arrays.deepEquals(currentBoard, board)) {
-                throw new GenerationNotPossible("Can't generate the next generation");
-            }
-        }
-        throw new GenerationNotPossible("Can't generate the next generation");
-    }
-    private void nextGenerationBoard() {
+    public Board nextGenerationBoard() {
         Cell[][] nextGeneration = new Cell[row][column];
 
         for (int i = 0; i < row; i++) {
@@ -103,6 +87,7 @@ public class Board {
             }
         }
         board = nextGeneration;
+        return new Board(this.row,this.column,this.board);
     }
     private int countLiveNeighbors(int x, int y) {
         int count = 0;
